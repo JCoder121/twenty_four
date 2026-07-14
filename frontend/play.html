@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>twenty_four</title>
+  <link rel="stylesheet" href="/src/shared.css" />
+</head>
+<body>
+  <div id="ambient"></div>
+  <div id="app">
+    <div id="status"></div>
+    <div id="play">
+      <div id="cards"></div>
+      <div id="solution"></div>
+    </div>
+    <div id="prompt"><span id="prompt-q"></span><span id="prompt-typed"></span><span id="cursor">█</span></div>
+  </div>
+  <button id="sound-toggle">[sound: off]</button>
+  <input id="hidden-input" autocomplete="off" autocapitalize="none" />
+  <script type="module" src="/src/shell.ts"></script>
+</body>
+</html>
