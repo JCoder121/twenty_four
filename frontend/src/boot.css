@@ -1,0 +1,9 @@
+body { background: #000; color: #d8d8d8; }
+#app { justify-content: center; max-width: 40rem; margin: 0 auto; }
+#post { font-size: 1rem; line-height: 1.7; opacity: 0.85; white-space: pre-wrap; font-family: inherit; }
+#menu { margin-top: 1rem; font-size: 1.15rem; line-height: 2; }
+.entry { cursor: pointer; }
+.entry .label { letter-spacing: 0.15em; }
+.entry.selected .label { color: #fff; }
+.entry .desc { opacity: 0.5; font-size: 0.85em; margin-left: 1.5ch; }
+#bootline { margin-top: 1rem; letter-spacing: 0.1em; }
