@@ -1,2 +1,122 @@
-/* uno theme — implemented by theme agent */
-[data-theme='uno'] .card { border: 1px solid #555; padding: 1rem 1.4rem; }
+/* UNO.SYS — Uno Minimalista. Flat neon card blocks on near-black; color lives
+   only on cards + the solution line. Motion is near-silent: one glow pulse. */
+
+body[data-theme='uno'] {
+  --uno-bg: #0a0a0f;
+  --uno-text: #e8e8f0;
+  --uno-spade: #22d3ee;
+  --uno-heart: #ff2d78;
+  --uno-diamond: #ffb020;
+  --uno-club: #34ff88;
+
+  background: var(--uno-bg);
+  color: var(--uno-text);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.06em;
+}
+
+[data-theme='uno'] #ambient { display: none; }
+
+/* -- quiet chrome: status/prompt never carry theme color -- */
+[data-theme='uno'] #status,
+[data-theme='uno'] #prompt,
+[data-theme='uno'] #prompt-q,
+[data-theme='uno'] #prompt-typed,
+[data-theme='uno'] #cursor,
+[data-theme='uno'] #sound-toggle {
+  color: var(--uno-text);
+  opacity: 0.6;
+  letter-spacing: 0.08em;
+}
+[data-theme='uno'] #status { text-transform: uppercase; font-size: 0.78rem; }
+
+/* -- radical negative space around the four cards -- */
+[data-theme='uno'] #play { gap: clamp(2.5rem, 6vw, 4.5rem); }
+[data-theme='uno'] #cards { gap: clamp(1.5rem, 5vw, 3.5rem); }
+
+/* -- the card: solid neon block, single bg-colored pip, corner index -- */
+[data-theme='uno'] .card {
+  position: relative;
+  width: clamp(4.75rem, 15vw, 7.25rem);
+  aspect-ratio: 5 / 7;
+  background: var(--card-color, var(--uno-spade));
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 0 transparent;
+  transition: filter 0.6s ease;
+}
+[data-theme='uno'] .card--spade { --card-color: var(--uno-spade); }
+[data-theme='uno'] .card--heart { --card-color: var(--uno-heart); }
+[data-theme='uno'] .card--diamond { --card-color: var(--uno-diamond); }
+[data-theme='uno'] .card--club { --card-color: var(--uno-club); }
+
+[data-theme='uno'] .card .rank {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.55rem;
+  font-size: clamp(0.68rem, 1.6vw, 0.85rem);
+  font-weight: 700;
+  color: var(--uno-bg);
+  letter-spacing: 0.02em;
+}
+[data-theme='uno'] .card .pip {
+  font-size: clamp(1.9rem, 6vw, 2.75rem);
+  line-height: 1;
+  color: var(--uno-bg);
+  letter-spacing: normal;
+}
+
+/* -- reveal beat: one soft glow pulse, ~1.5s, silent otherwise -- */
+[data-theme='uno'] .card.pulse {
+  animation: uno-pulse 1.5s ease-out;
+}
+@keyframes uno-pulse {
+  0% { box-shadow: 0 0 0 0 transparent; }
+  35% { box-shadow: 0 0 20px 3px var(--card-color); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='uno'] .card.pulse {
+    animation: uno-pulse-fade 1.5s ease-out;
+  }
+  @keyframes uno-pulse-fade {
+    0% { opacity: 1; }
+    50% { opacity: 0.55; }
+    100% { opacity: 1; }
+  }
+}
+
+/* -- solution line: the only other place color is allowed -- */
+[data-theme='uno'] #solution {
+  font-size: clamp(1.05rem, 2.4vw, 1.55rem);
+  letter-spacing: 0.1em;
+  background: linear-gradient(90deg, var(--uno-spade), var(--uno-heart), var(--uno-diamond), var(--uno-club));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme='uno'] #solution .count,
+[data-theme='uno'] #solution .note {
+  -webkit-text-fill-color: var(--uno-text);
+  color: var(--uno-text);
+  background: none;
+  opacity: 0.55;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
+
+/* -- NO RESULT: desaturate cards, quiet centered text, no drama -- */
+[data-theme='uno'] #play.state-noresult .card {
+  filter: grayscale(1) brightness(0.6);
+}
+[data-theme='uno'] #play.state-noresult #solution {
+  background: none;
+  -webkit-text-fill-color: var(--uno-text);
+  color: var(--uno-text);
+  opacity: 0.55;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+}
