@@ -22,6 +22,13 @@ Continue? (y/n) n
 Hands played: 2 | Solvable: 2 | NO RESULT: 0
 ```
 
+## Play online
+
+**https://jcoder121.github.io/twenty_four/** — a boot menu offering three
+complete themes: `UNO.SYS` (flat neon minimalism), `ESPER.OS` (Blade Runner
+amber CRT), `CONSTRUCT` (digital rain). Typed prompts, just like the CLI.
+Sound is synthesized and off by default.
+
 ## What is the 24 game?
 
 Draw 4 cards and make exactly **24** using each card once with `+ - * /` and
