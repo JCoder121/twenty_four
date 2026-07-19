@@ -22,20 +22,14 @@ async function askYesNo(io: IO, question: string): Promise<boolean> {
   }
 }
 
-async function askDeckCount(io: IO): Promise<1 | 2> {
-  for (;;) {
-    const answer = (await io.prompt('How many decks? (1/2) ')).trim()
-    if (answer === '1') return 1
-    if (answer === '2') return 2
-    io.print('Please enter 1 or 2.')
-  }
-}
+// One deck. Deck count changes the odds (draw-without-replacement weighting),
+// never the set of reachable hands — one deck already holds every rank — so it's
+// not worth a prompt. See README.
+const DECK_COUNT = 1
 
 export async function runGame({ io, rng = Math.random, table = null }: GameDeps): Promise<void> {
-  if (!(await askYesNo(io, 'Ready to start game?'))) return
-  const deckCount = await askDeckCount(io)
-
-  let deck = new Deck(deckCount, rng)
+  // No "ready?" gate — picking a theme is the start signal; deal the first hand.
+  let deck = new Deck(DECK_COUNT, rng)
   let hands = 0
   let solvable = 0
   let noResult = 0
@@ -43,7 +37,7 @@ export async function runGame({ io, rng = Math.random, table = null }: GameDeps)
   for (;;) {
     if (deck.remaining() < 4) {
       if (await askYesNo(io, 'Deck exhausted. Reshuffle?')) {
-        deck = new Deck(deckCount, rng)
+        deck = new Deck(DECK_COUNT, rng)
       } else {
         break
       }

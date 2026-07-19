@@ -4,8 +4,6 @@
 
 ```
 $ npm start
-Ready to start game? (y/n) y
-How many decks? (1/2) 1
 
 --- Hand 1 (48 cards left) ---
 Cards: 2♦ 8♠ 9♥ 10♠
@@ -44,9 +42,10 @@ npm install
 npm start
 ```
 
-Cards are dealt without replacement from 1 or 2 shuffled decks (your choice at
-startup, 13 or 26 hands per shoe). When the shoe runs out you can reshuffle or
-quit; quitting prints a session summary.
+Cards are dealt without replacement from a single shuffled deck (13 hands per
+shoe). When the shoe runs out you can reshuffle or quit; quitting prints a
+session summary. (Deck count isn't a setting — see [Results](#results) for why
+a second deck would change the odds but not which hands are reachable.)
 
 Other commands:
 
@@ -70,13 +69,16 @@ collapsed). Headline numbers:
 | Hands with exactly one solution ("forced" hands) | 396 |
 | Median distinct solutions per solvable hand | 2 |
 | Most solvable hand | `A A J K` — 22 distinct solutions |
-| Chance a dealt hand is NO RESULT (1 deck, draw-weighted) | 19.5% |
-| Chance a dealt hand is NO RESULT (2 decks) | 20.2% |
+| Chance a dealt hand is NO RESULT (draw-weighted) | 19.5% |
+| Same, with a hypothetical second deck | 20.2% |
 
-Two decks add **zero** new combinations — one deck already holds 4 copies of
-every rank, enough for any hand. Two decks only shift the odds: four-of-a-kind
-becomes ~4× more likely, and since duplicate-heavy hands skew unsolvable, the
-shoe gets slightly harder.
+The simulator always deals from **one** deck. Deck count is intentionally not a
+setting because a second deck adds **zero** new combinations — one deck already
+holds 4 copies of every rank, enough for any hand. A second deck would only
+shift the odds: four-of-a-kind becomes ~4× more likely, and since
+duplicate-heavy hands skew unsolvable, the shoe would get slightly harder (the
+19.5% → 20.2% above). Same set of reachable hands, different probabilities — so
+it's a footnote, not a prompt.
 
 ## Surprising findings
 

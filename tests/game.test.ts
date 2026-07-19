@@ -27,15 +27,17 @@ function makeIO(inputs: string[]) {
 const text = (t: string[]) => t.join('\n')
 
 describe('runGame', () => {
-  it('exits immediately when not ready', async () => {
+  it('deals the first hand immediately, with no start prompt', async () => {
     const { io, transcript } = makeIO(['n'])
     await runGame({ io, rng: lcg(1) })
-    expect(text(transcript)).not.toContain('How many decks?')
-    expect(text(transcript)).not.toContain('Hand 1')
+    const t = text(transcript)
+    expect(t).not.toContain('Ready to start game?')
+    expect(t).not.toContain('How many decks?')
+    expect(t).toContain('--- Hand 1 (48 cards left) ---') // dealt before any prompt
   })
 
   it('plays one hand and prints a solution or NO RESULT, then a summary', async () => {
-    const { io, transcript } = makeIO(['y', '1', 'n'])
+    const { io, transcript } = makeIO(['n'])
     await runGame({ io, rng: lcg(42) })
     const t = text(transcript)
     expect(t).toContain('--- Hand 1 (48 cards left) ---')
@@ -45,17 +47,16 @@ describe('runGame', () => {
   })
 
   it('reprompts on invalid input', async () => {
-    const { io, transcript } = makeIO(['maybe', 'y', '3', 'x', '2', 'n'])
+    const { io, transcript } = makeIO(['maybe', 'n'])
     await runGame({ io, rng: lcg(3) })
     const t = text(transcript)
     expect(t).toContain('Please enter y or n.')
-    expect(t).toContain('Please enter 1 or 2.')
-    expect(t).toContain('--- Hand 1 (100 cards left) ---') // 2 decks chosen
+    expect(t).toContain('--- Hand 1 (48 cards left) ---') // always 1 deck
   })
 
   it('plays through exhaustion and reshuffles on y', async () => {
     // 1 deck = 13 hands; continue past all of them, reshuffle once, play one more, quit
-    const inputs = ['y', '1', ...Array(13).fill('y'), 'y', 'n']
+    const inputs = [...Array(13).fill('y'), 'y', 'n']
     const { io, transcript } = makeIO(inputs)
     await runGame({ io, rng: lcg(9) })
     const t = text(transcript)
@@ -65,7 +66,7 @@ describe('runGame', () => {
   })
 
   it('summary splits solvable vs NO RESULT and they sum to hands played', async () => {
-    const inputs = ['y', '1', ...Array(12).fill('y'), 'n']
+    const inputs = [...Array(12).fill('y'), 'n']
     const { io, transcript } = makeIO(inputs)
     await runGame({ io, rng: lcg(11) })
     const summary = transcript.find((line) => line.startsWith('Hands played: 13'))

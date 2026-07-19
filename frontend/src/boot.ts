@@ -3,7 +3,7 @@ export {}
 const POST = [
   'TWENTY_FOUR BIOS v1.0',
   'MEM CHECK ........ OK',
-  'DECKS ............ 1-2 SUPPORTED, NO JOKERS',
+  'DECK ............. SINGLE, NO JOKERS',
   'HANDS INDEXED .... 1820',
   'SOLVABLE ......... 1362 (74.8%)',
   'ARITHMETIC ....... EXACT RATIONAL',
